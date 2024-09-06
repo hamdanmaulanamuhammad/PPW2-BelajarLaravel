@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class studentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts');
+        $students = Student::all(); // Mengambil semua data dari tabel students
+        return view('index', compact('students')); // Mengembalikan view dengan data students
     }
 
     /**

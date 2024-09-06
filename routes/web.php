@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\studentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,5 +35,9 @@ Route::get('/halo', function () {
 });
 
 // Controller
-Route::get('/posts',[PostController::class,'index']);
+Route::get('/posts',[PostController::class,'index']); ####
+
+Route::get('/students',[studentsController::class,'index']); ####
+
+
 
