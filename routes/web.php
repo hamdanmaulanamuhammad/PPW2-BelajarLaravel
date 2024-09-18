@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\studentsController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,8 @@ Route::get('/halo', function () {
 Route::get('/posts',[PostController::class,'index']); ####
 
 Route::get('/students',[studentsController::class,'index']); ####
+
+Route::get('/buku',[BukuController::class,'index']);
 
 
 
