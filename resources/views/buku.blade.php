@@ -18,6 +18,7 @@
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Penulis</th>
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Harga</th>
                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Tanggal Terbit</th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Action</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -29,6 +30,21 @@
                 <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->penulis }}</td>
                 <td class="px-4 py-2 text-sm text-gray-700">{{ "Rp. " . number_format($buku->harga, 2, ',', '.') }}</td>
                 <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->tgl_terbit }}</td>
+                <td class="px-4 py-2 text-sm text-gray-700">
+                    <!-- Tombol Update -->
+                    <a href="{{ route('buku.edit', $buku->id) }}" class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 shadow-md mr-5">
+                        Update
+                    </a>
+
+                    <!-- Tombol Delete -->
+                    <form action="{{ route('buku.destroy', $buku->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau dihapus?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 shadow-md">
+                            Delete
+                        </button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -66,6 +82,13 @@
             </tbody>
         </table>
     </div>
+</div>
+
+<!-- Tombol Tambah Buku -->
+<div class="flex justify-center mt-8">
+    <a href="{{ route('buku.create') }}" class="bg-blue-500 text-white py-4 px-6 rounded-xl hover:bg-blue-600 shadow-md text-center font-bold mb-8">
+        Tambah Buku
+    </a>
 </div>
 
 </body>
