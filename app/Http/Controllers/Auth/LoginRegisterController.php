@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginRegisterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest')->except([
-            'logout', 'dashboard'
-        ]);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except([
+    //         'logout', 'dashboard'
+    //     ]);
+    // }
 
     public function register()
     {

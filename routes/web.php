@@ -19,7 +19,7 @@ use App\Http\Controllers\Auth\LoginRegisterController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/about', function () {
     return view('about',[
@@ -60,3 +60,8 @@ Route::controller(LoginRegisterController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::post('/logout', 'logout')->name('logout');
 });
+
+//Pertemuan 9 Middleware
+Route::get('restricted', function () {
+    return redirect(route('dashboard'))->with('success', 'Anda berusia lebih dari 18 tahun');
+})->middleware('checkage');
