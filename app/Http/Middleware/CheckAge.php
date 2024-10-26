@@ -14,12 +14,13 @@ class CheckAge
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-        if ($request -> age < 18) {
+        if ($request->age < 18) {
             return redirect()->route('welcome')
-            ->with('error', 'Anda berusia kurang dari 18 tahun');
+                ->with('error', 'Anda berusia kurang dari 18 tahun!');
         }
+        
         return $next($request);
     }
 }

@@ -23,7 +23,6 @@
         <style>
             .alert {
                 padding: 15px;
-                margin-bottom: 20px;
                 border: 1px solid transparent;
                 border-radius: 4px;
             }
@@ -43,9 +42,9 @@
     <body class="antialiased">
         <div class="mt-16">
             @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    {{ $message }}
-                </div>
+            <div class="alert alert-success">
+                {{ $message }}
+            </div>
             @elseif ($message = Session::get('error'))
                 <div class="alert alert-danger" role="alert">
                     {{ $message }}

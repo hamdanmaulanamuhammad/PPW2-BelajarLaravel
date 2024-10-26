@@ -17,8 +17,8 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if (auth()->user()->level != 'admin') {
-            return redirect()->route('welcome')
-            ->withErrors('Anda bukan admin');
+            return redirect()->route('dashboard')
+            ->with('error', 'Anda bukan admin !');
         }
         return $next($request);
     }
