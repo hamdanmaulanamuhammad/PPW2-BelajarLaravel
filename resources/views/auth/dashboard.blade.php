@@ -20,9 +20,14 @@
                     </div>
                 @endif
                 
-                <!-- Tombol baru untuk halaman buku -->
+                <!-- Tombol untuk halaman Buku -->
                 <div class="d-flex justify-content-center mt-3">
                     <a href="{{ url('/buku') }}" class="btn btn-primary">Go to Buku Page</a>
+                </div>
+
+                <!-- Tombol untuk halaman Users -->
+                <div class="d-flex justify-content-center mt-2">
+                    <a href="{{ url('/users') }}" class="btn btn-secondary">Go to Users Page</a>
                 </div>
             </div>
         </div>

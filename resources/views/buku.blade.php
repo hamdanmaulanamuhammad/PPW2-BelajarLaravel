@@ -7,36 +7,46 @@
 </head>
 <body class="bg-blue-400">
 <h1 class="text-center text-4xl font-bold text-white mt-8">TABEL BUKU</h1>
+
 <!-- Tabel Buku -->
 <div class="flex justify-center mt-8 mx-10">
     <table class="min-w-full max-w-4xl bg-white border border-gray-200 shadow-md rounded-lg mx-4">
         <thead>
             <tr class="bg-gray-100 border-b border-gray-200">
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">No</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Judul Buku</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Penulis</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Harga</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Tanggal Terbit</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Action</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">No</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">ID</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Judul Buku</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Penulis</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Harga</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Tanggal Terbit</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Gambar Buku</th>
+                <th class="px-4 py-2 text-left text-md font-medium text-gray-700">Action</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
             @foreach($data_buku as $index => $buku)
             <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 text-sm text-gray-700">{{ $index+1 }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->id }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->judul }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->penulis }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">{{ "Rp. " . number_format($buku->harga, 2, ',', '.') }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">{{ $buku->tgl_terbit }}</td>
-                <td class="px-4 py-2 text-sm text-gray-700">
-                    <!-- Tombol Update -->
+                <td class="px-4 py-2 text-md text-gray-700">{{ $index+1 }}</td>
+                <td class="px-4 py-2 text-md text-gray-700">{{ $buku->id }}</td>
+                <td class="px-4 py-2 text-md text-gray-700 ">{{ $buku->judul }}</td>
+                <td class="px-4 py-2 text-md text-gray-700">{{ $buku->penulis }}</td>
+                <td class="px-4 py-2 text-md text-gray-700">{{ "Rp. " . number_format($buku->harga, 2, ',', '.') }}</td>
+                <td class="px-4 py-2 text-md text-gray-700">{{ $buku->tgl_terbit }}</td>
+                
+                <!-- Menampilkan gambar buku -->
+                <td class="px-4 py-2 text-md text-gray-700 items-center">
+                    @if($buku->gambar)
+                        <img src="{{ asset('storage/' . $buku->gambar) }}" width="100px" class="rounded">
+                    @else
+                        <img src="{{ asset('noimage.jpg') }}" width="100px" class="rounded">
+                    @endif
+                </td>
+
+                <!-- Tombol Update dan Delete -->
+                <td class="px-4 py-2 text-md text-gray-700 items-center">
                     <a href="{{ route('buku.edit', $buku->id) }}" class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 shadow-md mr-5">
                         Update
                     </a>
-
-                    <!-- Tombol Delete -->
                     <form action="{{ route('buku.destroy', $buku->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau dihapus?')">
                         @csrf
                         @method('DELETE')
@@ -58,12 +68,12 @@
         <table class="min-w-full bg-white border border-gray-200 shadow-md">
             <thead class="bg-gray-100 border-b border-gray-200">
                 <tr>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Jumlah Buku</th>
+                    <th class="px-4 py-2 text-left text-md font-medium text-gray-700 items-center">Jumlah Buku</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $jumlah_buku }}</td>
+                    <td class="px-4 py-2 text-md text-gray-700 items-center">{{ $jumlah_buku }}</td>
                 </tr>
             </tbody>
         </table>
@@ -72,12 +82,12 @@
         <table class="min-w-full bg-white border border-gray-200 shadow-md">
             <thead class="bg-gray-100 border-b border-gray-200">
                 <tr>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Total Harga Buku</th>
+                    <th class="px-4 py-2 text-left text-md font-medium text-gray-700 items-center">Total Harga Buku</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ "Rp. " . number_format($harga_buku, 2, ',', '.') }}</td>
+                    <td class="px-4 py-2 text-md text-gray-700 items-center">{{ "Rp. " . number_format($harga_buku, 2, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>

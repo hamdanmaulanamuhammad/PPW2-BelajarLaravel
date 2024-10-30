@@ -4,115 +4,104 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; // Menggunakan Storage untuk menyimpan file
 
 class BukuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
-     public function __construct()
+    public function __construct()
      {
         $this->middleware('auth');
         $this->middleware('admin');
      }
-
+     
     public function index()
     {
         $data_buku = Buku::orderByDesc('id')->get();
-
         $jumlah_buku = Buku::count();
-
         $harga_buku = Buku::sum('harga');
 
-
-        return view('buku',compact('data_buku','jumlah_buku','harga_buku'));
+        return view('buku', compact('data_buku', 'jumlah_buku', 'harga_buku'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('buku.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'tgl_terbit' => 'required|date',
+            'gambar' => 'image|nullable|max:1999' // Validasi untuk gambar
+        ]);
+
         $buku = new Buku();
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
+
+        if ($request->hasFile('gambar')) {
+            // Menyimpan gambar di storage/app/gambar_buku
+            $path = $request->file('gambar')->store('gambar_buku');
+            $buku->gambar = $path; // Menyimpan path ke database
+        }
+
         $buku->save();
-        return redirect('/buku');
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $buku = Buku::findOrFail($id);
-
         return view('buku.edit', compact('buku'));
-
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'tgl_terbit' => 'required|date',
+            'gambar' => 'image|nullable|max:1999' // Validasi untuk gambar saat update
+        ]);
+
         $buku = Buku::findOrFail($id);
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
-        $buku->save();
 
-    return redirect('/buku')->with('success', 'Buku berhasil diperbarui');
+        if ($request->hasFile('gambar')) {
+            // Menghapus gambar lama jika ada
+            if ($buku->gambar) {
+                Storage::delete($buku->gambar);
+            }
+
+            // Menyimpan gambar baru di storage/app/gambar_buku
+            $path = $request->file('gambar')->store('gambar_buku');
+            $buku->gambar = $path;
+        }
+
+        $buku->save();
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $buku = Buku::find($id);
-        $buku->delete();
+        $buku = Buku::findOrFail($id);
 
-        return redirect('/buku');
+        // Menghapus gambar dari penyimpanan jika ada
+        if ($buku->gambar) {
+            Storage::delete($buku->gambar);
+        }
+
+        $buku->delete();
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus');
     }
 }
