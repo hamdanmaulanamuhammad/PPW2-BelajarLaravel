@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\studentsController;
 use Illuminate\Support\Facades\Route;
@@ -60,3 +61,14 @@ Route::controller(LoginRegisterController::class)->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::post('/logout', 'logout')->name('logout');
 });
+
+// Pertemuan 9 Middleware
+Route::get('restricted', function () {
+    return redirect(route('dashboard'))->with('success', 'Anda berusia lebih dari 18 tahun');
+})->middleware('checkage');
+
+// Pertemuan 10
+Route::resource('users', UserController::class);
+
+//Pertemuan 11
+Route::resource('gallery',GalleryController::class);

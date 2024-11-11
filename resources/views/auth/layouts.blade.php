@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laravel 10 Custom User Registration & Login Tutorial - AllPHPTricks.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('lightbox2/dist/css/lightbox.min.css')}}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-light">
@@ -48,5 +49,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{{asset('lightbox2/dist/js/lightbox-plus-jquery.min.js')}}"></script>
 </body>
 </html>
