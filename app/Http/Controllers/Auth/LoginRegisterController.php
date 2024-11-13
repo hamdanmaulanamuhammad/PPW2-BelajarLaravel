@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserRegistered;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Mail;
 
 
 class LoginRegisterController extends Controller
@@ -31,16 +33,19 @@ class LoginRegisterController extends Controller
             'password' => 'required|min:8|confirmed'
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
+        // Kirim email notifikasi pendaftaran
+        Mail::to($user->email)->send(new UserRegistered($user));
+
         Auth::attempt($request->only('email', 'password'));
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('success', 'You have successfully registered & logged in!');
+        return redirect()->route('dashboard')->with('success', 'Anda berhasil terdaftar & masuk ke aplikasi!');
     }
 
     public function login()

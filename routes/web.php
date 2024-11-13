@@ -6,6 +6,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\studentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginRegisterController;
+//Pertemuan 12
+use App\Http\Controllers\SendEmailController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -72,3 +74,7 @@ Route::resource('users', UserController::class);
 
 //Pertemuan 11
 Route::resource('gallery',GalleryController::class);
+
+//Pertemuan 12
+Route::get('/send-mail',[SendEmailController::class,'index'])->name('kirim-email');
+Route::post('/post-mail',[SendEmailController::class,'store'])->name('post-email');
